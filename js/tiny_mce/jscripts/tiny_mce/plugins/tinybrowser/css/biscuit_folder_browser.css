@@ -1,0 +1,49 @@
+#biscuit-folder-list-container {
+	width: auto;
+	min-width: 177px;
+	float: left;
+	margin-right: 3px;
+}
+
+#biscuit-folder-list {
+	width: auto;
+	position: relative;
+	z-index: 5;
+	background: #fff;
+}
+
+#biscuit-folder-list a,
+#biscuit-folder-list a:visited {
+	display: block;
+	font-weight: normal;
+	width: auto;
+	margin: 0 0 1px;
+	position: relative;
+	white-space: nowrap;
+	text-decoration: none;
+}
+
+#biscuit-folder-list a span.link-text,
+#biscuit-folder-list a:visited span.link-text,
+#biscuit-folder-list a:hover span.link-text {
+	text-decoration: underline;
+}
+
+#biscuit-folder-list a.stripe-odd,
+#biscuit-folder-list a:visited.stripe-odd {
+	background: #F5F5F5;
+}
+
+#biscuit-folder-list a.stripe-even,
+#biscuit-folder-list a:visited.stripe-even {
+	background: #fff;
+}
+
+#biscuit-folder-list a:hover,
+#biscuit-folder-list a.stripe-even:hover,
+#biscuit-folder-list a.stripe-odd:hover,
+#biscuit-folder-list a.selected,
+#biscuit-folder-list a:visited.selected {
+	background: #b2e1ff;
+	text-decoration: none;
+}

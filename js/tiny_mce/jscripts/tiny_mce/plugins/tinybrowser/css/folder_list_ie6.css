@@ -1,0 +1,4 @@
+/* IE6 hack for min-width (it treats "width" as "min-width"): */
+#biscuit-folder-list-container {
+	width: 177px;
+}
