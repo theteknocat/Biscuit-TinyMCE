@@ -160,7 +160,7 @@ if(isset($_POST['resizefile']))
 		if($newsize)
 		   {
 			// detect silly sizes
-			if($newsize > $tinybrowser['thumbsize'])
+			if($newsize > $tinybrowser['thumbwidth'])
 				{
 				// do image resize
 				$targetimg = $tinybrowser['docroot'].$editpath.$_POST['actionfile'][$sizethis];
@@ -177,9 +177,9 @@ if(isset($_POST['resizefile']))
 						$rw = $mime[0];
 						$rh = $newsize;
 						}
-					$im = convert_image($targetimg,$mime['mime']);
-					resizeimage($im,$rw,$rh,$targetimg,$tinybrowser['imagequality'],$mime['mime']);
-					imagedestroy($im);
+					$image = new Image($targetimg);
+					$image->resize($rw,$rh,Image::RESIZE_ONLY,$targetimg);
+					$image->destroy();
 					$resizeqty++;
 				   }
 				else $errorqty++;
@@ -201,46 +201,18 @@ if(isset($_POST['rotatefile']))
 			if (file_exists($targetimg))
 				{
 				// rotate image
-				if($direction == 'clock') $degree=270; else $degree=90;
-				$mime = getimagesize($targetimg);
-				$im = convert_image($targetimg,$mime['mime']);
-				
-				// additional processing for png / gif transparencies (credit to Dirk Bohl)
-				if($mime['mime'] == 'image/x-png' || $mime['mime'] == 'image/png')
-					{
-					imagealphablending($newim, false);
-					imagesavealpha($newim, true);
-					}
-				elseif($mime['mime'] == 'image/gif')
-					{
-					$originaltransparentcolor = imagecolortransparent( $im );
-					if($originaltransparentcolor >= 0 && $originaltransparentcolor < imagecolorstotal( $im ))
-						{
-						$transparentcolor = imagecolorsforindex( $im, $originaltransparentcolor );
-						$newtransparentcolor = imagecolorallocate($newim,$transparentcolor['red'],$transparentcolor['green'],$transparentcolor['blue']);
-						imagefill( $newim, 0, 0, $newtransparentcolor );
-						imagecolortransparent( $newim, $newtransparentcolor );
-						}
-					}
-				$newim = imagerotate($im, $degree, 0);
-				imagedestroy($im);
-				
-            if($mime['mime'] == 'image/pjpeg' || $mime['mime'] == 'image/jpeg')
-            	imagejpeg ($newim,$targetimg,$tinybrowser['imagequality']);
-            elseif($mime['mime'] == 'image/x-png' || $mime['mime'] == 'image/png')
-               imagepng ($newim,$targetimg,substr($tinybrowser['imagequality'],0,1));
-            elseif($mime['mime'] == 'image/gif')
-               imagegif ($newim,$targetimg);
-				imagedestroy($newim);
+				if($direction == 'clock') $degree=-90; else $degree=90;
+				$image = new Image($targetimg);
+				$image->rotate_image($degree,$targetimg);
+				$image->destroy();
 				$rotateqty++;
 
 				// delete and recreate thumbnail image
 				$targetthumb = $tinybrowser['docroot'].$editpath.'_thumbs/_'.$_POST['actionfile'][$rotatethis];
 				if (file_exists($targetthumb)) unlink($targetthumb);
-				$mime = getimagesize($targetimg);
-				$im = convert_image($targetimg,$mime['mime']);
-				resizeimage($im,$tinybrowser['thumbsize'],$tinybrowser['thumbsize'],$targetthumb,$tinybrowser['thumbquality'],$mime['mime']);
-				imagedestroy($im);
+				$image = new Image($targetimg);
+				$image->resize($tinybrowser['thumbwidth'],$tinybrowser['thumbheight'],Image::RESIZE_AND_CROP,$targetthumb);
+				$image->destroy();
 				}
 			else $errorqty++;
 			}

@@ -209,7 +209,7 @@ if($tinybrowser['allowfolders'])
 			$allowed_str = ' with the following extensions: '.$filetype_str;
 		}
 		?>
-		<form name="standard-upload-form" action="<?php echo $submit_url ?>" accept-charset="utf-8" enctype="multipart/form-data" method="POST">
+		<form name="standard-upload-form" action="<?php echo $submit_url ?>" accept-charset="UTF-8" enctype="multipart/form-data" method="POST">
 			<input type="file" name="Filedata" value="">
 			<input type="submit" name="Upload" value="Upload">
 		</form>

@@ -130,10 +130,9 @@ if(file_exists($tinybrowser['docroot'].$browsepath))
 						if (!file_exists($thumbimg)) {
 							$nothumbimg = $tinybrowser['docroot'].$browsepath.$filename;
 							if (memory_check($nothumbimg)) {
-								$mime = getimagesize($nothumbimg);
-								$im = convert_image($nothumbimg,$mime['mime']);
-								resizeimage($im,$tinybrowser['thumbsize'],$tinybrowser['thumbsize'],$thumbimg,$tinybrowser['thumbquality'],$mime['mime']);
-								imagedestroy($im);
+								$image = new Image($nothumbimg);
+								$image->resize($tinybrowser['thumbwidth'],$tinybrowser['thumbheight'],Image::RESIZE_AND_CROP,$thumbimg);
+								$image->destroy();
 								$newthumbqty++;
 							} else {
 								$nomemoryforthumbingqty++;

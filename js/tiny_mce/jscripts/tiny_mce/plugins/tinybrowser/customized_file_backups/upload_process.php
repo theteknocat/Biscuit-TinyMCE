@@ -75,7 +75,7 @@ if ($handle = opendir($folder))
 				if (!file_exists($thumbimg))
 					{
 					$im = convert_image($dest_filename,$mime);
-					resizeimage	($im,$tinybrowser['thumbsize'],$tinybrowser['thumbsize'],$thumbimg,$tinybrowser['thumbquality'],$mime);
+					resizeimage	($im,$tinybrowser['thumbwidth'],$tinybrowser['thumbheight'],$thumbimg,$tinybrowser['thumbquality'],$mime);
 					imagedestroy ($im);
 					}
 				}

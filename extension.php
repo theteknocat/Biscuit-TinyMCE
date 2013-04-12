@@ -80,30 +80,15 @@ class TinyMce extends AbstractExtension {
 		$button_id = 'file-browse-button-'.$text_field_args[0];
 		$field = <<<HTML
 <span class="file-browse-field">$field_base<a href="#file-browser" id="$button_id" class="file-browse-button">Browse/Upload</a></span>
-HTML;
-		if ($this->Biscuit->extension_exists('Jquery')) {
-			$field .= <<<HTML
 <script type="text/javascript" charset="utf-8">
-	jQuery(document).ready(function() {
-		jQuery('#$button_id').click(function() {
+	$(document).ready(function() {
+		$('#$button_id').click(function() {
 			tinyBrowserPopUp('$type','$field_id');
 			return false;
 		});
 	});
 </script>
 HTML;
-		} else if ($this->Biscuit->extension_exists('PrototypeJs')) {
-			$field .= <<<HTML
-<script type="text/javascript" charset="utf-8">
-	document.observe('dom:loaded',function() {
-		$('$button_id').observe('click',function(event) {
-			Event.stop(event);
-			tinyBrowserPopUp('$type','$field_id');
-		});
-	});
-</script>
-HTML;
-		}
 		return $field;
 	}
 	/**
@@ -113,7 +98,12 @@ HTML;
 	 * @author Peter Epp
 	 */
 	public static function install_migration() {
-		DB::query("REPLACE INTO `system_settings` (`constant_name`, `friendly_name`, `description`, `value`) VALUES ('TINYBROWSER_ACCESS_LEVEL','File Manager browsing access level','The level of access required to browse files using the file manager','99'), ('TINYBROWSER_UPLOAD_LEVEL','File Manager upload access level','The level of access required to upload files with the file manager','99'), ('TINYBROWSER_EDIT_LEVEL','File Manager edit access level','The level of access required to perform edit operations on files using the file manager (move, rename, resize images etc)','99'), ('TINYBROWSER_DELETE_LEVEL','File Manager delete access level','The level of access required to delete files using the file manager','99'), ('TINYBROWSER_FOLDER_MODIFY_LEVEL','File Manager folder management access level','The level of access required to manage folders using the file manager','99')");
+		DB::query("REPLACE INTO `system_settings` (`constant_name`, `friendly_name`, `description`, `value`, `value_type`, `required`, `group_name`) VALUES
+		('TINYBROWSER_ACCESS_LEVEL','File Manager browsing access level','The level of access required to browse files using the file manager','99','permission',1, 'Rich Text Editor'),
+		('TINYBROWSER_UPLOAD_LEVEL','File Manager upload access level','The level of access required to upload files with the file manager','99','permission',1, 'Rich Text Editor'),
+		('TINYBROWSER_EDIT_LEVEL','File Manager edit access level','The level of access required to perform edit operations on files using the file manager (move, rename, resize images etc)','99','permission',1, 'Rich Text Editor'),
+		('TINYBROWSER_DELETE_LEVEL','File Manager delete access level','The level of access required to delete files using the file manager','99','permission',1, 'Rich Text Editor'),
+		('TINYBROWSER_FOLDER_MODIFY_LEVEL','File Manager folder management access level','The level of access required to manage folders using the file manager','99','permission',1, 'Rich Text Editor')");
 	}
 	/**
 	 * Delete file manager permissions from the system settings table. Works with Biscuit 2.1 only

@@ -44,101 +44,6 @@ switch($sortbynow)
 	}
 }
 
-// **************************RESIZE IMAGE TO GIVEN SIZE*****************************************
-function resizeimage($im,$maxwidth,$maxheight,$urlandname,$comp,$imagetype){
-$width = imagesx($im);
-$height = imagesy($im);
-if(($maxwidth && $width > $maxwidth) || ($maxheight && $height > $maxheight))
-	{
-	if($maxwidth && $width > $maxwidth)
-		{
-		$widthratio = $maxwidth/$width;
-		$resizewidth=true;
-		} 
-	else $resizewidth=false;
-
-	if($maxheight && $height > $maxheight)
-		{
-		$heightratio = $maxheight/$height;
-		$resizeheight=true;
-		} 
-	else $resizeheight=false;
-
- 	if($resizewidth && $resizeheight)
-		{
-		if($widthratio < $heightratio) $ratio = $widthratio;
-		else $ratio = $heightratio;
-		}
-	elseif($resizewidth)
-		{
-		$ratio = $widthratio;
-		}
-	elseif($resizeheight)
-		{
-		$ratio = $heightratio;
-		}
-	$newwidth = $width * $ratio;
-	$newheight = $height * $ratio;
-		if(function_exists('imagecopyresampled') && $imagetype !='image/gif')
-		{
-		$newim = imagecreatetruecolor($newwidth, $newheight);
-		}
-	else
-		{
-		$newim = imagecreate($newwidth, $newheight);
-		}
-
-	// additional processing for png / gif transparencies (credit to Dirk Bohl)
-	if($imagetype == 'image/x-png' || $imagetype == 'image/png')
-		{
-		imagealphablending($newim, false);
-		imagesavealpha($newim, true);
-		}
-	elseif($imagetype == 'image/gif')
-		{
-		$originaltransparentcolor = imagecolortransparent( $im );
-		if($originaltransparentcolor >= 0 && $originaltransparentcolor < imagecolorstotal( $im ))
-			{
-			$transparentcolor = imagecolorsforindex( $im, $originaltransparentcolor );
-			$newtransparentcolor = imagecolorallocate($newim,$transparentcolor['red'],$transparentcolor['green'],$transparentcolor['blue']);
-			imagefill( $newim, 0, 0, $newtransparentcolor );
-			imagecolortransparent( $newim, $newtransparentcolor );
-			}
-		}
-
-   imagecopyresampled($newim, $im, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
-   
-   if($imagetype == 'image/pjpeg' || $imagetype == 'image/jpeg')
-   	{
-   	imagejpeg ($newim,$urlandname,$comp);
-   	}
-   elseif($imagetype == 'image/x-png' || $imagetype == 'image/png')
-   	{
-   	imagepng ($newim,$urlandname,substr($comp,0,1));
-   	}
-   elseif($imagetype == 'image/gif')
-   	{
-   	imagegif ($newim,$urlandname);
-   	}
-	imagedestroy ($newim);
-	}
-else
-	{
-   if($imagetype == 'image/pjpeg' || $imagetype == 'image/jpeg')
-   	{
-   	imagejpeg ($im,$urlandname,$comp);
-   	}
-   elseif($imagetype == 'image/x-png' || $imagetype == 'image/png')
-   	{
-   	imagepng ($im,$urlandname,substr($comp,0,1));
-   	}
-   elseif($imagetype == 'image/gif')
-   	{
-   	imagegif ($im,$urlandname);
-   	}
-	}
-}
-
 // **************************CHECK MEMORY NEEDED TO CREATE GD RESOURCE FROM IMAGE AGAINST ALLOCATED MEMORY*****************************
 function memory_check($filepath) {
 	// How much memory is currently available:
@@ -164,26 +69,6 @@ function memory_check($filepath) {
 	}
 	$memory_estimate = $width * $height * $bits;
 	return ($memory_estimate <= $memory_available);
-}
-
-// **************************CHECK IMAGE TYPE AND CONVERT TO TEMP TYPE*****************************
-function convert_image($imagetemp,$imagetype){
-
-if($imagetype == 'image/pjpeg' || $imagetype == 'image/jpeg')
-	{
-	$cim1 = imagecreatefromjpeg($imagetemp);
-	}
-elseif($imagetype == 'image/x-png' || $imagetype == 'image/png')
-	{
-	$cim1 = imagecreatefrompng($imagetemp);
-	imagealphablending($cim1, false);
-	imagesavealpha($cim1, true);
-	}
-elseif($imagetype == 'image/gif')
-	{
-	$cim1 = imagecreatefromgif($imagetemp);
-	}
-return $cim1;
 }
 
 // **************************GENERATE FORM OPEN*****************************

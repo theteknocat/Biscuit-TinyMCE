@@ -66,12 +66,13 @@ if ($handle = opendir($folder))
 						$widthnew  = ($tinybrowser['imageresize']['width'] > 0 && $tinybrowser['imageresize']['width'] < $imginfo[0] ? $tinybrowser['imageresize']['width'] : $imginfo[0]);
 						$heightnew = ($tinybrowser['imageresize']['height'] > 0 && $tinybrowser['imageresize']['height'] < $imginfo[1] ? $tinybrowser['imageresize']['height'] :  $imginfo[1]);
 
+						$image = new Image($dest_filename);
+						$image->auto_rotate();
+
 						// only resize if width or height values are different
 						if($widthnew != $imginfo[0] || $heightnew != $imginfo[1])
 							{
-							$im = convert_image($dest_filename,$mime);
-							resizeimage($im,$widthnew,$heightnew,$dest_filename,$tinybrowser['imagequality'],$mime);
-							imagedestroy($im);
+								$image->resize($widthnew,$heightnew,Image::RESIZE_ONLY,$dest_filename);
 							}
 						}
 
@@ -79,10 +80,9 @@ if ($handle = opendir($folder))
 					$thumbimg = $folder.'_thumbs/_'.rtrim($file,'_');
 					if (!file_exists($thumbimg))
 						{
-						$im = convert_image($dest_filename,$mime);
-						resizeimage	($im,$tinybrowser['thumbsize'],$tinybrowser['thumbsize'],$thumbimg,$tinybrowser['thumbquality'],$mime);
-						imagedestroy ($im);
+							$image->resize($tinybrowser['thumbwidth'],$tinybrowser['thumbheight'],Image::RESIZE_AND_CROP,$thumbimg);
 						}
+						$image->destroy();
 				} else {
 					Console::log("File failed memory check on upload");
 					unlink($dest_filename);

@@ -71,7 +71,12 @@ $tinybrowser['docroot'] = rtrim(SITE_ROOT,'/');
 $tinybrowser['unixpermissions'] = 0775;
 
 // File upload paths (set to absolute by default)
-if (defined('TINYBROWSER_UPLOAD_PATH')) {
+if (method_exists($Authenticator,'user_upload_path')) {
+	// Hook to allow custom setting of upload folders for the current user
+	$tinybrowser['path']['image'] = $Authenticator->user_upload_path('image'); // Image files location - also creates a '_thumbs' subdirectory within this path to hold the image thumbnails
+	$tinybrowser['path']['media'] = $Authenticator->user_upload_path('media'); // Media files location
+	$tinybrowser['path']['file']  = $Authenticator->user_upload_path('file'); // Other files location
+} else if (defined('TINYBROWSER_UPLOAD_PATH')) {
 	$tinybrowser['path']['image'] = TINYBROWSER_UPLOAD_PATH; // Image files location - also creates a '_thumbs' subdirectory within this path to hold the image thumbnails
 	$tinybrowser['path']['media'] = TINYBROWSER_UPLOAD_PATH; // Media files location
 	$tinybrowser['path']['file']  = TINYBROWSER_UPLOAD_PATH; // Other files location
@@ -92,13 +97,13 @@ $tinybrowser['maxsize']['media'] = 0; // Media file maximum size
 $tinybrowser['maxsize']['file']  = 0; // Other file maximum size
 
 // Image automatic resize on upload (0 is no resize)
-if (defined('TINYBROWSER_MAX_IMAGE_WIDTH')) {
-	$tinybrowser['imageresize']['width']  = TINYBROWSER_MAX_IMAGE_WIDTH;
+if (defined('IMG_WIDTH')) {
+	$tinybrowser['imageresize']['width']  = IMG_WIDTH;
 } else {
 	$tinybrowser['imageresize']['width']  = 0;
 }
-if (defined('TINYBROWSER_MAX_IMAGE_HEIGHT')) {
-	$tinybrowser['imageresize']['height'] = TINYBROWSER_MAX_IMAGE_HEIGHT;
+if (defined('IMG_HEIGHT')) {
+	$tinybrowser['imageresize']['height'] = IMG_HEIGHT;
 } else {
 	$tinybrowser['imageresize']['height'] = 0;
 }
@@ -107,7 +112,24 @@ if (defined('TINYBROWSER_MAX_IMAGE_HEIGHT')) {
 $tinybrowser['thumbsrc'] = 'path'; // Possible values: path, link
 
 // Image thumbnail size in pixels
-$tinybrowser['thumbsize'] = 80;
+if (defined('THUMB_WIDTH') && THUMB_WIDTH > 0) {
+	$tinybrowser['thumbwidth'] = THUMB_WIDTH;
+} else {
+	if (defined('THUMB_HEIGHT') && THUMB_HEIGHT > 0) {
+		$tinybrowser['thumbwidth'] = 0;
+	} else {
+		$tinybrowser['thumbwidth'] = 80;
+	}
+}
+if (defined('THUMB_HEIGHT') && THUMB_HEIGHT > 0) {
+	$tinybrowser['thumbheight'] = THUMB_HEIGHT;
+} else {
+	if (defined('THUMB_WIDTH') && THUMB_WIDTH > 0) {
+		$tinybrowser['thumbheight'] = 0;
+	} else {
+		$tinybrowser['thumbheight'] = 80;
+	}
+}
 
 // Image and thumbnail quality, higher is better (1 to 99)
 $tinybrowser['imagequality'] = 80; // only used when resizing or rotating
@@ -155,4 +177,3 @@ $tinybrowser['defaultaction'] = 'delete'; // Possible values: delete, rename, mo
 
 // Set delay for file process script, only required if server response is slow
 $tinybrowser['delayprocess'] = 0; // Value in seconds
-?>

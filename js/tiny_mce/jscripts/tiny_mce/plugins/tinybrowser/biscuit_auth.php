@@ -17,22 +17,32 @@ $biscuit_user_can_upload         = false;
 $biscuit_user_can_edit           = false;
 $biscuit_user_can_delete         = false;
 $biscuit_user_can_modify_folders = false;
-if ($Biscuit->ModuleAuthenticator()->user_is_logged_in()) {
-	$current_user_level = $Biscuit->ModuleAuthenticator()->active_user()->user_level();
-	if (defined('TINYBROWSER_ACCESS_LEVEL')) {
-		if ($current_user_level >= TINYBROWSER_ACCESS_LEVEL) {
-			Session::set('tiny_browser_access_enabled',true);
+$Authenticator = $Biscuit->ModuleAuthenticator();
+$Authenticator->define_access_levels();
+if ($Authenticator->user_is_logged_in()) {
+	$current_user_level = $Authenticator->active_user()->user_level();
+	if (method_exists($Authenticator,'file_manager_permission')) {
+		$user_can_access_tb = $Authenticator->file_manager_permission('access');
+	} else if (defined('TINYBROWSER_ACCESS_LEVEL')) {
+		$user_can_access_tb = ($current_user_level >= TINYBROWSER_ACCESS_LEVEL);
+	}
+	if ($user_can_access_tb) {
+		Session::set('tiny_browser_access_enabled',true);
+		if (method_exists($Authenticator,'file_manager_permission')) {
+			// Hook to allow setting custom file manager permissions for the current user
+			$biscuit_user_can_upload         = $Authenticator->file_manager_permission('upload');
+			$biscuit_user_can_edit           = $Authenticator->file_manager_permission('edit');
+			$biscuit_user_can_delete         = $Authenticator->file_manager_permission('delete');
+			$biscuit_user_can_modify_folders = $Authenticator->file_manager_permission('modify_folders');
 		} else {
-			Session::unset_var('tiny_browser_access_enabled');
+			$biscuit_user_can_upload         = (defined('TINYBROWSER_UPLOAD_LEVEL') && $current_user_level >= TINYBROWSER_UPLOAD_LEVEL);
+			$biscuit_user_can_edit           = (defined('TINYBROWSER_EDIT_LEVEL') && $current_user_level >= TINYBROWSER_EDIT_LEVEL);
+			$biscuit_user_can_delete         = (defined('TINYBROWSER_DELETE_LEVEL') && $current_user_level >= TINYBROWSER_DELETE_LEVEL);
+			$biscuit_user_can_modify_folders = (defined('TINYBROWSER_FOLDER_MODIFY_LEVEL') && $current_user_level >= TINYBROWSER_FOLDER_MODIFY_LEVEL);
 		}
-		$biscuit_user_can_upload         = (defined('TINYBROWSER_UPLOAD_LEVEL') && $current_user_level >= TINYBROWSER_UPLOAD_LEVEL);
-		$biscuit_user_can_edit           = (defined('TINYBROWSER_EDIT_LEVEL') && $current_user_level >= TINYBROWSER_EDIT_LEVEL);
-		$biscuit_user_can_delete         = (defined('TINYBROWSER_DELETE_LEVEL') && $current_user_level >= TINYBROWSER_DELETE_LEVEL);
-		$biscuit_user_can_modify_folders = (defined('TINYBROWSER_FOLDER_MODIFY_LEVEL') && $current_user_level >= TINYBROWSER_FOLDER_MODIFY_LEVEL);
 	} else {
 		Session::unset_var('tiny_browser_access_enabled');
 	}
 } else {
 	Session::unset_var('tiny_browser_access_enabled');
 }
-?>
