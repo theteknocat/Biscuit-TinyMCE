@@ -1,0 +1,4 @@
+name = "TinyMce"
+description = "Provides TinyMce for use in views. Note that this extension is only available on demand and must be defined as a dependency by a module in order to use it."
+version = "2.2"
+is_global = 0

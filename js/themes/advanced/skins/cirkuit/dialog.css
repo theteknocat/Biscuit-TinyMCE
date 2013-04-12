@@ -1,0 +1,213 @@
+/* Generic */
+body {
+font-family:"Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif; font-size:11px;
+background:#f1f1f1;
+padding:0;
+margin: 0;
+}
+
+html {background:#f1f1f1;}
+td {font-family:"Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif; font-size:10px;}
+textarea {resize:none;outline:none;}
+a:link, a:visited {color:black;}
+a:hover {color:#2B6FB6;}
+.nowrap {white-space: nowrap}
+
+/* Forms */
+label {
+	font-weight: bold;
+}
+fieldset {
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	background: #fff;
+	padding: 5px 10px;
+	border: 1px solid #999;
+}
+fieldset legend {
+	padding: 2px 15px;
+	border: 1px solid #999;
+	background: #eee url(/framework/themes/sea_biscuit/images/controls-bg.gif) left top repeat-x;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	color: #444;
+	font-size: 10px;
+	font-weight: bold;
+}
+label.msg {display:none;}
+label.invalid {color:#EE0000; display:inline;}
+input.invalid {border:1px solid #EE0000;}
+input {background:#FFF; border:1px solid #dfdfdf;}
+input, select, textarea {font-family:"Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif; font-size:10px;}
+input, select, textarea {
+	border: 1px solid #DFDFDF;
+	background: #F6F6F6;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	color: #000;
+}
+input:focus, select:focus, textarea:focus {
+	background: #fff;
+	border: 1px solid #999999;
+}
+input.radio {border:1px none #000000; background:transparent; vertical-align:middle;}
+input.checkbox {border:1px none #000000; background:transparent; vertical-align:middle;}
+.input_noborder {border:0;}
+
+/* Buttons */
+#insert, #cancel, #apply, .mceActionPanel .button, input.mceButton, .updateButton {
+	font-size: 10px !important;
+	line-height: 17px;
+	padding: 1px 10px;
+	text-decoration: none !important;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-box-shadow: #aaa 1px 1px 5px;
+	-moz-box-shadow: #aaa 1px 1px 5px;
+	box-shadow: #aaa 1px 1px 5px;
+	position: relative;
+	font-weight: normal !important;
+	float: right;
+	margin:0 5px 0 0; 
+	cursor:pointer;
+}
+#cancel, .mceActionPanel .button, input.mceButton, .updateButton {
+	border: 1px solid #888;
+	background: #bbb url(/framework/themes/sea_biscuit/images/jquery-ui/ui-bg_highlight-hard_100_bbbbbb_1x100.png) repeat-x 50% 50%;
+	color: #222 !important;
+	text-shadow: 1px 1px 0 #ddd;
+}
+#insert, #apply {
+	border: 1px solid #1762F3;
+	color: #fff;
+	text-shadow: 1px 1px 0 #333333;
+	background: #539DF3 url(/framework/themes/sea_biscuit/images/submit-bg-outset.gif) repeat-x scroll center center;
+}
+#cancel:hover, input.mceButton:hover, .updateButton:hover,
+#cancel:focus, input.mceButton:focus, .updateButton:focus {
+	background: #bbb url(/framework/themes/sea_biscuit/images/jquery-ui/ui-bg_inset-hard_100_bbbbbb_1x100.png) repeat-x 50% 50%;
+}
+#cancel:active, input.mceButton:active, .updateButton:active {
+	background: #fff !important;
+}
+#insert:hover, #apply:hover {
+	background: #539DF3 url(/framework/themes/sea_biscuit/images/submit-bg-inset.gif) repeat-x scroll center center;
+}
+/* Browse */
+a.browse span {display:block; width:20px; height:18px; background:url(img/icons.png) -860px 0; border:1px solid #FFF; margin-left:1px;}
+.mceOldBoxModel a.browse span {width:22px; height:20px;}
+a.browse:hover span {border:1px solid #0A246A; background-color:#B2BBD0;}
+a.browse span.disabled {border:1px solid white; -moz-opacity:0.3; opacity:0.3; filter:progid:DXImageTransform.Microsoft.Alpha(opacity=30);}
+a.browse:hover span.disabled {border:1px solid white; background-color:transparent;}
+a.pickcolor span {display:block; width:20px; height:16px; background:url(img/icons.png) -840px 0; margin-left:2px;}
+.mceOldBoxModel a.pickcolor span {width:21px; height:17px;}
+a.pickcolor:hover span {background-color:#B2BBD0;}
+a.pickcolor, a.browse {text-decoration:none}
+
+/* Charmap */
+table.charmap {border:1px solid #AAA; text-align:center}
+td.charmap, #charmap a {width:18px; height:18px; color:#000; border:1px solid #AAA; text-align:center; font-size:12px; vertical-align:middle; line-height: 18px;}
+#charmap a {display:block; color:#000; text-decoration:none; border:0}
+#charmap a:hover {background:#CCC;color:#2B6FB6}
+#charmap #codeN {font-size:10px; font-family:Arial,Helvetica,sans-serif; text-align:center}
+#charmap #codeV {font-size:40px; height:80px; border:1px solid #AAA; text-align:center}
+#charmap #charmapView {background-color:#fff;}
+
+/* Source */
+.wordWrapCode {vertical-align:middle; border:1px none #000000; background:transparent;}
+.mceActionPanel {margin-top:5px;}
+.mceActionPanel:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+
+/* Tabs classes */
+.tabs {width:100%; height:18px; line-height:normal;}
+.tabs ul {margin:0; padding:0; list-style:none;}
+.tabs li {
+	position: relative;
+	top: 1px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	float:left;
+	background:url(/framework/themes/sea_biscuit/images/jquery-ui/ui-bg_highlight-hard_100_bbbbbb_1x100.png) repeat-x scroll 50% 50% #BBBBBB;
+	margin:0 2px 1px 0;
+	padding:0 0 0 10px;
+	line-height:17px;
+	height:18px;
+	display:block;
+	border: 1px solid #888;
+	border-bottom: none;
+}
+.tabs li:hover {
+	background:url(/framework/themes/sea_biscuit/images/jquery-ui/ui-bg_inset-hard_100_bbbbbb_1x100.png) repeat-x scroll 50% 50% #BBBBBB;
+}
+.tabs li.current {
+	background:url(/framework/themes/sea_biscuit/images/jquery-ui/ui-bg_flat_75_eeeeee_40x100.png) repeat-x scroll 0 0 #EEEEEE !important;
+	margin-right:2px;
+	padding-bottom: 1px;
+	margin-bottom: 0;
+}
+.tabs li.current a {
+	cursor: default;
+}
+.tabs span {float:left; display:block; padding:0px 10px 0 0;}
+.tabs a {
+	text-decoration:none;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
+	font-size:10px;
+	font-weight: bold;
+	text-shadow: 0 1px 1px #fff;
+}
+.tabs a:link, .tabs a:visited, .tabs a:hover {color:black;}
+
+/* Panels */
+.panel_wrapper div.panel {display:none;}
+.panel_wrapper div.current {display:block; width:100%; height:300px; overflow:visible;}
+.panel_wrapper {
+	border:1px solid #888;
+	padding:10px;
+	padding-top:5px;
+	clear:both;
+	background:url(/framework/themes/sea_biscuit/images/jquery-ui/ui-bg_flat_75_eeeeee_40x100.png) repeat-x scroll 0 0 #EEEEEE;
+	-webkit-border-bottom-right-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	-moz-border-radius-bottomright: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+/* Columns */
+.column {float:left;}
+.properties {width:100%;}
+.properties .column1 {}
+.properties .column2 {text-align:left;}
+
+/* Titles */
+h1, h2, h3, h4 {color:#2B6FB6; margin:0; padding:0; padding-top:5px;}
+h3 {font-size:14px;}
+.title {font-size:12px; font-weight:bold;}
+
+/* Dialog specific */
+#link .panel_wrapper, #link div.current {height:125px;}
+#image .panel_wrapper, #image div.current {height:200px;}
+#plugintable thead {font-weight:bold; background:#DDD;}
+#plugintable, #about #plugintable td {border:1px solid #919B9C;}
+#plugintable {width:96%; margin-top:10px;}
+#pluginscontainer {height:290px; overflow:auto;}
+#colorpicker #preview {float:right; width:50px; height:14px;line-height:1px; border:1px solid black; margin-left:5px;}
+#colorpicker #colors {float:left; border:1px solid gray; cursor:crosshair;}
+#colorpicker #light {border:1px solid gray; margin-left:5px; float:left;width:15px; height:150px; cursor:crosshair;}
+#colorpicker #light div {overflow:hidden;}
+#colorpicker #previewblock {float:right; padding-left:10px; height:20px;}
+#colorpicker .panel_wrapper, #colorpicker div.current {height:174px;}
+#colorpicker #namedcolors {width:150px;}
+#colorpicker #namedcolors a {display:block; float:left; width:10px; height:10px; margin:1px 1px 0 0; overflow:hidden;}
+#colorpicker #colornamecontainer {margin-top:5px;}
+#colorpicker #picker_panel fieldset {margin:auto;width:325px;}
